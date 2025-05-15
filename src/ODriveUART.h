@@ -5,18 +5,20 @@
 #include "Arduino.h"
 #include "ODriveEnums.h"
 
-struct ODriveFeedback {
+struct ODriveFeedback
+{
     float pos;
     float vel;
 };
 
-class ODriveUART {
+class ODriveUART
+{
 public:
     /**
      * @brief Constructs an ODriveUART instance that will communicate over
      * the specified serial port.
      */
-    ODriveUART(Stream& serial);
+    ODriveUART(Stream &serial);
 
     /**
      * @brief Clears the error status of the ODrive and restarts the brake
@@ -50,6 +52,11 @@ public:
     void setVelocity(float velocity, float torque_feedforward);
 
     /**
+     * @brief Sends a new velocity setpoint to multiply the motors
+     */
+    void setVelocity(float velocity1, float velocity2, float torque_feedforward, int motorNum1, int motorNum2);
+
+    /**
      * @brief Sends a new torque setpoint.
      */
     void setTorque(float torque);
@@ -62,31 +69,31 @@ public:
 
     /**
      * @brief Requests the latest position and velocity estimates.
-     * 
+     *
      * Returns pos = 0.0 and vel = 0.0 in case of a communication error.
      */
     ODriveFeedback getFeedback();
 
     /**
      * @brief Requests the latest position estimate.
-     * 
+     *
      * Returns 0.0 in case of a communication error.
      */
     float getPosition() { return getFeedback().pos; }
 
     /**
      * @brief Requests the latest velocity estimate.
-     * 
+     *
      * Returns 0.0 in case of a communication error.
      */
     float getVelocity() { return getFeedback().vel; }
 
     // Generic parameter access
-    String getParameterAsString(const String& path);
-    long getParameterAsInt(const String& path) { return getParameterAsString(path).toInt(); }
-    float getParameterAsFloat(const String& path) { return getParameterAsString(path).toFloat(); }
-    void setParameter(const String& path, const String& value);
-    void setParameter(const String& path, long value) { setParameter(path, String(value)); }
+    String getParameterAsString(const String &path);
+    long getParameterAsInt(const String &path) { return getParameterAsString(path).toInt(); }
+    float getParameterAsFloat(const String &path) { return getParameterAsString(path).toFloat(); }
+    void setParameter(const String &path, const String &value);
+    void setParameter(const String &path, long value) { setParameter(path, String(value)); }
 
     /**
      * @brief Tells the ODrive to change its axis state.
@@ -95,7 +102,7 @@ public:
 
     /**
      * @brief Requests the current axis state from the ODrive.
-     * 
+     *
      * Returns AXIS_STATE_UNDEFINED in case of a communication error.
      */
     ODriveAxisState getState();
@@ -103,7 +110,7 @@ public:
 private:
     String readLine(unsigned long timeout_ms = 10);
 
-    Stream& serial_;
+    Stream &serial_;
 };
 
-#endif //ODriveUART_h
+#endif // ODriveUART_h

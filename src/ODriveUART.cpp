@@ -127,7 +127,7 @@ ODriveFeedback2 ODriveUART::getFeedback(int motorNum1, int motorNum2)
     if (spacePos1 >= 0)
     {
         feedback.pos2 = response1.substring(0, spacePos1).toFloat();
-        feedback.pos2 = response1.substring(spacePos1 + 1).toFloat();
+        feedback.vel2 = response1.substring(spacePos1 + 1).toFloat();
     }
 
     return feedback;

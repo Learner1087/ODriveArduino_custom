@@ -121,13 +121,13 @@ ODriveFeedback2 ODriveUART::getFeedback(int motorNum1, int motorNum2)
 
     serial_ << F("f ") << motorNum2 << F("\n");
 
-    String response = readLine();
+    String response1 = readLine();
 
-    int spacePos = response.indexOf(' ');
-    if (spacePos >= 0)
+    int spacePos1 = response1.indexOf(' ');
+    if (spacePos1 >= 0)
     {
-        feedback.pos2 = response.substring(0, spacePos).toFloat();
-        feedback.pos2 = response.substring(spacePos + 1).toFloat();
+        feedback.pos2 = response1.substring(0, spacePos1).toFloat();
+        feedback.pos2 = response1.substring(spacePos1 + 1).toFloat();
     }
 
     return feedback;

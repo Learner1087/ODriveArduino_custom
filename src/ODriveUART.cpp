@@ -94,6 +94,45 @@ ODriveFeedback ODriveUART::getFeedback()
     }
 }
 
+ODriveFeedback2 ODriveUART::getFeedback(int motorNum1, int motorNum2)
+{
+    // Flush RX
+    while (serial_.available())
+    {
+        serial_.read();
+    }
+
+    serial_ << F("f ") << motorNum1 << F("\n");
+
+    ODriveFeedback2 feedback;
+    String response = readLine();
+
+    int spacePos = response.indexOf(' ');
+    if (spacePos >= 0)
+    {
+        feedback.pos1 = response.substring(0, spacePos).toFloat();
+        feedback.vel1 = response.substring(spacePos + 1).toFloat();
+    }
+
+    while (serial_.available())
+    {
+        serial_.read();
+    }
+
+    serial_ << F("f ") << motorNum2 << F("\n");
+
+    String response = readLine();
+
+    int spacePos = response.indexOf(' ');
+    if (spacePos >= 0)
+    {
+        feedback.pos2 = response.substring(0, spacePos).toFloat();
+        feedback.pos2 = response.substring(spacePos + 1).toFloat();
+    }
+
+    return feedback;
+}
+
 String ODriveUART::getParameterAsString(const String &path)
 {
     serial_ << F("r ") << path << F("\n");

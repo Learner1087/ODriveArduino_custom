@@ -11,6 +11,14 @@ struct ODriveFeedback
     float vel;
 };
 
+struct ODriveFeedback2
+{
+    float pos1;
+    float vel1;
+    float pos2;
+    float vel2;
+};
+
 class ODriveUART
 {
 public:
@@ -73,6 +81,13 @@ public:
      * Returns pos = 0.0 and vel = 0.0 in case of a communication error.
      */
     ODriveFeedback getFeedback();
+
+    /**
+     * @brief Requests the latest position and velocity estimates.
+     *
+     * Returns pos = 0.0 and vel = 0.0 in case of a communication error.
+     */
+    ODriveFeedback2 getFeedback(int motorNum1, int motorNum2);
 
     /**
      * @brief Requests the latest position estimate.
